@@ -19,7 +19,6 @@ const int btnInt = 10;
 unsigned long lastlcd = 0;
 unsigned long lastbtn = 0;
 int lastBtnValue;
-bool fahrenheit;
 
 //custom character to create degree symbol
 byte degree[] = {
@@ -42,6 +41,7 @@ void setup()
   lcd.backlight();
   lcd.print("Temperature Sensor");
   pinMode(BUTTON_PIN, INPUT_PULLUP);
+  delay(500);
 }
 
 void loop()
@@ -60,12 +60,8 @@ void loop()
   	}
     lastBtnValue= btnValue;
     
-    if(counter ==1){
-    	fahrenheit = true;
-        
-    }else if(counter==2){
+    if(counter>=2){
       	counter =0;
-    	fahrenheit = false;
     }
   }
   
