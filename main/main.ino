@@ -111,7 +111,7 @@ void loop()
 }
 
 
-float changeUnit(int type){
+void changeUnit(int type){
   switch(type){
     
     //celcius
