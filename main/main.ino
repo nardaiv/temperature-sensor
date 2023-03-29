@@ -5,10 +5,10 @@
 const int BUTTON_PIN = 2; 
 
 //setup lcd
-LiquidCrystal_I2C lcd(32,16,2);
+LiquidCrystal_I2C lcd(0x27,2,1,0,4,5,6,7,3,POSITIVE);
 
 //define Temperature Input
-const int pinTemp = A1;
+const int pinTemp = A0;
 
 //define counter for switch unit
 int counter =0;
@@ -52,6 +52,7 @@ void setup()
   //print booting message
   lcd.print("Temperature Sensor");
   pinMode(BUTTON_PIN, INPUT_PULLUP);
+  pinMode(pinTemp, INPUT);
   
   //delay before start measure temperature
   delay(500);
@@ -97,11 +98,12 @@ void loop()
     
     //taking temperature input
     temp = analogRead(pinTemp);    //Read the analog pin
-    temp = (20*temp-2035)/41;  //convert output (mv) to readable celcius
-	
+    
+    temp= temp*500/1024;  //convert output (mv) to readable celcius
+    //temp = temp/10;
     //changing unit based on click
     changeUnit(counter);
-    
+    Serial.println(temp);
     //rendering temperature
 	renderTemp(temp,degreeUse);
     
