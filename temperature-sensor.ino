@@ -173,8 +173,10 @@ void renderTemp(float temp, bool degreeStatus){
 
 void message(){
   lcd.clear();
+  //message
   char title[255] = "  Temperature Sensor  ";
   char credit[255] = "     by Khalisa, Langit, Rifqi, & Narda";
+  //for looping setup
   int  y=0,z =0;
   int limit = strlen(credit);
   bool back =false;
@@ -182,31 +184,22 @@ void message(){
 
   while(z <= limit){
     lcd.clear();
+    //create a 16 char to display
     char a[16];
     char b[16];
-
-
     strncpy(a, title+y, 16);
     strncpy(b, credit+z, 16);
-    lcd.setCursor(0,0);
 
+    //dispaying 16 char
     lcd.setCursor(0, 0);
     lcd.print(a);
-        
     lcd.setCursor(0, 1);
     lcd.print(b);
     
-    if(y==6){
-      back=true;
-    }else if(y<=0 ){
-      back=false;
-    }
-    
-    if(back){
-      y--;
-    }else{
-      y++;
-    }
+    //for creating back and forth effect
+    (y==6)?(back=true):(y==0)&&(back=false);
+    (back)?(y--):(y++);
+
     z++;
     delay(350);
   }
