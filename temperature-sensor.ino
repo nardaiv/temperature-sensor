@@ -50,10 +50,10 @@ void setup()
   lcd.backlight();
   
   //print booting message
-  lcd.print("Temperature Sensor");
+  //lcd.print("Temperature Sensor");
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(pinTemp, INPUT);
-  
+  message();
   //delay before start measure temperature
   delay(500);
 }
@@ -169,4 +169,46 @@ void renderTemp(float temp, bool degreeStatus){
   lcd.setCursor(14,0);
   lcd.print(symbol);
   
+}
+
+void message(){
+  lcd.clear();
+  char title[255] = "  Temperature Sensor  ";
+  char credit[255] = "     by Khalisa, Langit, Rifqi, & Narda";
+  int  y=0,z =0;
+  int limit = strlen(credit);
+  bool back =false;
+
+
+  while(z <= limit){
+    lcd.clear();
+    char a[16];
+    char b[16];
+
+
+    strncpy(a, title+y, 16);
+    strncpy(b, credit+z, 16);
+    lcd.setCursor(0,0);
+
+    lcd.setCursor(0, 0);
+    lcd.print(a);
+        
+    lcd.setCursor(0, 1);
+    lcd.print(b);
+    
+    if(y==6){
+      back=true;
+    }else if(y<=0 ){
+      back=false;
+    }
+    
+    if(back){
+      y--;
+    }else{
+      y++;
+    }
+    z++;
+    delay(350);
+  }
+  lcd.clear();
 }
