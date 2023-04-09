@@ -9,7 +9,7 @@ const int BUTTON_PIN = 2;
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 
 //define Temperature Input
-const int pinTemp = A0;
+const int pinTemp = 7;
 
 //define counter for switch unit
 int counter = 0;
@@ -17,9 +17,9 @@ int counter = 0;
 //setup delay for button and lcd
 const int lcdInt = 500;
 const int btnInt = 10;
-  unsigned long lastlcd = 0;
-  unsigned long lastbtn = 0;
-  int lastBtnValue;
+unsigned long lastlcd = 0;
+unsigned long lastbtn = 0;
+int lastBtnValue;
 
 //define variable for symbol usage
 bool degreeUse = true;
@@ -102,7 +102,7 @@ void loop() {
     lcd.print("        ");
 
     //taking temperature input
-    temp = dht.readTemperature();//analogRead(pinTemp);  //Read the analog pin
+    temp = dht.readTemperature();
     
     //changing unit based on click
     changeUnit(counter);

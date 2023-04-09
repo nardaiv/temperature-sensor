@@ -1,9 +1,9 @@
 # Temperatur Sensor
-This is a school project. And the purpose of project it self is to create a temperature sensor. The product would be used to measure air room temperature. The temperature sensor uses LM35. And it is running on Arduino UNO R3.
+This is a school project. And the purpose of project it self is to create a temperature sensor. The product would be used to measure air room temperature. The temperature sensor uses DHT11. And it is running on Arduino UNO R3.
 
 # Circuit Design
-The design for this project is created using [tinkercad](https://www.tinkercad.com). Keep in mind, the LM35 sensor is not available in tinkercad but there is a similiar sensor called TMP36 that you can use.
-![Circuit from tinkercad](./src/circuit.jpg)
+The design for this project is created using [wokwi](https://wokwi.com/). Keep in mind, the DHT11 sensor is not available in tinkercad but there is a similiar sensor called DHT22 that you can use.
+![Circuit from wokwi](./src/circuit.jpg)
 
 # Usage
 Make sure you have already prepared all the components that will be used as in the [circuit design](#circuit-design). Then you need to connect all components accordingly.
