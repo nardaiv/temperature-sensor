@@ -17,9 +17,9 @@ int counter = 0;
 //setup delay for button and lcd
 const int lcdInt = 500;
 const int btnInt = 10;
-unsigned long lastlcd = 0;
-unsigned long lastbtn = 0;
-int lastBtnValue;
+  unsigned long lastlcd = 0;
+  unsigned long lastbtn = 0;
+  int lastBtnValue;
 
 //define variable for symbol usage
 bool degreeUse = true;
@@ -57,6 +57,10 @@ void setup() {
   message();
   //delay before start measure temperature
   delay(500);
+  lcd.setCursor(0, 0);
+  lcd.print("Temp: ");
+  lcd.setCursor(0, 1);
+  lcd.print("Hum : ");
 }
 
 void loop() {
@@ -64,6 +68,7 @@ void loop() {
   unsigned long currentTime = millis();
 
   //run button counter based on button delay interval
+
   if (currentTime - lastbtn >= btnInt) {
     int btnValue = digitalRead(BUTTON_PIN);
     lastbtn = currentTime;
@@ -92,7 +97,7 @@ void loop() {
     lastlcd = currentTime;
 
     //clearing lcd
-    lcd.clear();
+    //lcd.clear();
 
     //taking temperature input
     temp = dht.readTemperature();//analogRead(pinTemp);  //Read the analog pin
@@ -147,23 +152,25 @@ void changeUnit(int type) {
 }
 
 void renderTemp(float temp, bool degreeStatus) {
-
+  int x = countDigit(temp);
   //show degree if necessary
   if (degreeStatus == true) {
     lcd.createChar(0, degree);
-    lcd.setCursor(13, 0);
+    lcd.setCursor(10+ x, 0);
     lcd.write(byte(0));
+    x++;
   }
 
   //show current temperature
-  lcd.setCursor(0, 0);
-  lcd.print("Temp: ");
+  lcd.setCursor(6, 0);
   lcd.print(temp);
-  lcd.setCursor(14, 0);
+  lcd.print(" ");
+  lcd.setCursor(10 + x, 0);
   lcd.print(symbol);
-  lcd.setCursor(0, 1);
-  lcd.print("Hum: ");
+
+  lcd.setCursor(6, 1);
   lcd.print(dht.readHumidity());
+  lcd.print(" %");
 }
 
 void message() {
@@ -176,27 +183,58 @@ void message() {
   int limit = strlen(credit);
   bool back = false;
 
+  unsigned long lastlcd = 0;
+  unsigned long lastbtn = 0;
+  int lastBtnValue;
 
-  while (z <= limit) {
-    lcd.clear();
-    //create a 16 char to display
-    char a[16];
-    char b[16];
-    strncpy(a, title + y, 16);
-    strncpy(b, credit + z, 16);
+  bool isBtnClicked= false;
 
-    //dispaying 16 char
-    lcd.setCursor(0, 0);
-    lcd.print(a);
-    lcd.setCursor(0, 1);
-    lcd.print(b);
+  while (z <= limit && !isBtnClicked) {
+    unsigned long currentTime = millis();    
+    if(currentTime - lastbtn >=btnInt){
+      
+      int btnValue = digitalRead(BUTTON_PIN);
 
-    //for creating back and forth effect
-    (y == 6) ? (back = true) : (y == 0) && (back = false);
-    (back) ? (y--) : (y++);
+      if (btnValue == LOW && btnValue != lastBtnValue){
+        isBtnClicked = true;
+      }
+      
+      lastBtnValue = btnValue;
+      lastbtn = currentTime;
+    }
 
-    z++;
-    delay(350);
+    if(currentTime - lastlcd >= 350){
+      lcd.clear();
+      //create a 16 char to display
+      char a[16];
+      char b[16];
+      strncpy(a, title + y, 16);
+      strncpy(b, credit + z, 16);
+
+      //dispaying 16 char
+      lcd.setCursor(0, 0);
+      lcd.print(a);
+      lcd.setCursor(0, 1);
+      lcd.print(b);
+
+      //for creating back and forth effect
+      (y == 6) ? (back = true) : (y == 0) && (back = false);
+      (back) ? (y--) : (y++);
+
+      z++;
+      lastlcd = currentTime;
+    }    
+    
   }
   lcd.clear();
+}
+
+
+int countDigit(int n){
+  int digit =0;
+  while (n!=0){
+    digit++;
+    n/=10;
+  }
+  return digit;
 }
