@@ -79,7 +79,7 @@ void loop() {
 
       //return anything greater than 4 to 0
       //so counter is always between 0 to 3
-      if (counter >= 4) {
+      if (counter >= 5) {
         counter = 0;
       }
 
@@ -96,13 +96,13 @@ void loop() {
     //update the condition var
     lastlcd = currentTime;
 
-    //clearing lcd
-    //lcd.clear();
+    lcd.setCursor(6, 0);
+    lcd.print("        ");
+    lcd.setCursor(6, 1);
+    lcd.print("        ");
 
     //taking temperature input
     temp = dht.readTemperature();//analogRead(pinTemp);  //Read the analog pin
-
-    //temp = temp * 500 / 1024;  //convert output (mv) to readable celcius
     
     //changing unit based on click
     changeUnit(counter);
@@ -145,6 +145,14 @@ void changeUnit(int type) {
       strcpy(symbol, "K");
       break;
 
+    //M
+    case 4:
+      temp *= 0.8;
+      temp += 15;
+      degreeUse = true;
+      strcpy(symbol, "M");
+      break;
+    
     //unmatched input
     default:
       Serial.println("invalid input (out of the switch options)");
